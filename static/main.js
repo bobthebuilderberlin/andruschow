@@ -13,20 +13,23 @@ function randomBetween(min,max)
     }
 }
 
-var tl = new TimelineMax();
+$(document).ready(function() {
 
-for(var i = 0; i < 20; i++){
+    var tl = new TimelineMax();
 
-    var t = TweenMax.to(select('.bubble' + i), randomBetween(1, 1.5), {
-        x: randomBetween(12, 15) * (randomBetween(-1, 1)),
-        y: randomBetween(12, 15) * (randomBetween(-1, 1)),
-        repeat:-1,
-        repeatDelay:randomBetween(0.2, 0.5),
-        yoyo:true,
-        ease:Elastic.easeOut.config(1, 0.5)
-    })
+    for (var i = 0; i < 20; i++) {
 
-    tl.add(t, (i+1)/0.6)
-}
+        var t = TweenMax.to(select('.bubble' + i), randomBetween(1, 1.5), {
+            x: randomBetween(12, 15) * (randomBetween(-1, 1)),
+            y: randomBetween(12, 15) * (randomBetween(-1, 1)),
+            repeat: -1,
+            repeatDelay: randomBetween(0.2, 0.5),
+            yoyo: true,
+            ease: Elastic.easeOut.config(1, 0.5)
+        })
 
-tl.seek(50);
+        tl.add(t, (i + 1) / 0.6)
+    }
+
+    tl.seek(50);
+})
