@@ -26,6 +26,11 @@ func loadPage(title string) (*Page, error) {
 	return &Page{Title: title, Body: body}, nil
 }
 
+func indexHandler(w http.ResponseWriter, r *http.Request) {
+	content, _ := ioutil.ReadFile("static/main.html")
+	w.Write(content)
+}
+
 func viewHandler(w http.ResponseWriter, r *http.Request) {
 	title := r.URL.Path[len("/view/"):]
 	p, _ := loadPage(title)
@@ -33,6 +38,13 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/view/", viewHandler)
+	filesystem := http.FileServer(http.Dir("static"))
+	http.Handle("/static/", http.StripPrefix("/static/", filesystem))
+
+	http.HandleFunc("/", indexHandler)
+
+	//http.HandleFunc("/view/", viewHandler)
+	//http.HandleFunc("/", indexHandler)
+	log.Println("Listening...")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
