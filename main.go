@@ -1,14 +1,17 @@
 package main
 
 import (
-	"io/ioutil"
 	"log"
 	"net/http"
 )
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-	content, _ := ioutil.ReadFile("static/main.html")
-	w.Write(content)
+	if len(r.Header["X-Forwarded-Proto"]) >0 && r.Header["X-Forwarded-Proto"][0] == "http" {
+		r.Header.Del("X-Forwarded-Proto")
+		http.Redirect(w, r, "https://" + r.Host + r.URL.Path, http.StatusTemporaryRedirect)
+		return
+	}
+	http.ServeFile(w, r, "static/main.html")
 }
 
 func main() {
