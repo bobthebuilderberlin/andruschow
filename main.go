@@ -7,8 +7,7 @@ import (
 
 func indexHandler(responseWriter http.ResponseWriter, request *http.Request) {
 	if wasHttpRequest(request) {
-		request.Header.Del("X-Forwarded-Proto")
-		http.Redirect(responseWriter, request, "https://"+request.Host+request.URL.Path, http.StatusTemporaryRedirect)
+		redirectToHttps(responseWriter, request)
 		return
 	}
 	http.ServeFile(responseWriter, request, "static/main.html")
@@ -16,6 +15,11 @@ func indexHandler(responseWriter http.ResponseWriter, request *http.Request) {
 
 func wasHttpRequest(r *http.Request) bool {
 	return len(r.Header["X-Forwarded-Proto"]) > 0 && r.Header["X-Forwarded-Proto"][0] == "http"
+}
+
+func redirectToHttps(responseWriter http.ResponseWriter, request *http.Request) {
+	request.Header.Del("X-Forwarded-Proto")
+	http.Redirect(responseWriter, request, "https://"+request.Host+request.URL.Path, http.StatusTemporaryRedirect)
 }
 
 func main() {
