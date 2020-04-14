@@ -5,13 +5,17 @@ import (
 	"net/http"
 )
 
-func indexHandler(w http.ResponseWriter, r *http.Request) {
-	if len(r.Header["X-Forwarded-Proto"]) >0 && r.Header["X-Forwarded-Proto"][0] == "http" {
-		r.Header.Del("X-Forwarded-Proto")
-		http.Redirect(w, r, "https://" + r.Host + r.URL.Path, http.StatusTemporaryRedirect)
+func indexHandler(responseWriter http.ResponseWriter, request *http.Request) {
+	if wasHttpRequest(request) {
+		request.Header.Del("X-Forwarded-Proto")
+		http.Redirect(responseWriter, request, "https://"+request.Host+request.URL.Path, http.StatusTemporaryRedirect)
 		return
 	}
-	http.ServeFile(w, r, "static/main.html")
+	http.ServeFile(responseWriter, request, "static/main.html")
+}
+
+func wasHttpRequest(r *http.Request) bool {
+	return len(r.Header["X-Forwarded-Proto"]) > 0 && r.Header["X-Forwarded-Proto"][0] == "http"
 }
 
 func main() {
