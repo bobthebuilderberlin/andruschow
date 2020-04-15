@@ -259,10 +259,11 @@ h3.section-title {
 &:nth-child(1)::before {width:100%;animation: skill_1 $time ease;}
 &:nth-child(2)::before {width:90%; animation: skill_2 $time ease;}
 &:nth-child(3)::before {width:75%;animation: skill_3 $time ease;}
-&:nth-child(4)::before {width:90%;animation: skill_4 $time ease;}
-&:nth-child(5)::before {width:90%;animation: skill_5 $time ease;}
-&:nth-child(6)::before {width:60%;animation: skill_6 $time ease;}
-&:nth-child(7)::before {width:100%;animation: skill_7 $time ease;}
+&:nth-child(4)::before {width:88%;animation: skill_3 $time ease;}
+&:nth-child(5)::before {width:90%;animation: skill_4 $time ease;}
+&:nth-child(6)::before {width:90%;animation: skill_5 $time ease;}
+&:nth-child(7)::before {width:60%;animation: skill_6 $time ease;}
+&:nth-child(8)::before {width:100%;animation: skill_7 $time ease;}
 }
 
 }
